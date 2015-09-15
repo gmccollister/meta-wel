@@ -7,6 +7,7 @@ IMAGE_FEATURES += "package-management"
 IMAGE_INSTALL += " \
 	packagegroup-boot \
 	packagegroup-basic \
+	packagegroup-core-selinux \
 	${ROOTFS_PKGMANAGE_PKGS} \
 	systemd \
 	bzip2 \
