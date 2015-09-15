@@ -14,6 +14,7 @@ IMAGE_INSTALL += " \
 	attr \
 	grep \
 	findutils \
+	auditd \
 "
 
 export IMAGE_BASENAME = "console-base-image"
