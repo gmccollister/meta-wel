@@ -13,6 +13,7 @@ IMAGE_INSTALL += " \
 	bzip2 \
 	attr \
 	grep \
+	findutils \
 "
 
 export IMAGE_BASENAME = "console-base-image"
