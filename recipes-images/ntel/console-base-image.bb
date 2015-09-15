@@ -12,6 +12,7 @@ IMAGE_INSTALL += " \
 	systemd \
 	bzip2 \
 	attr \
+	grep \
 "
 
 export IMAGE_BASENAME = "console-base-image"
