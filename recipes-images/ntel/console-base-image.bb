@@ -11,6 +11,7 @@ IMAGE_INSTALL += " \
 	${ROOTFS_PKGMANAGE_PKGS} \
 	systemd \
 	bzip2 \
+	attr \
 "
 
 export IMAGE_BASENAME = "console-base-image"
