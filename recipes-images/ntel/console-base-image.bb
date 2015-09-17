@@ -19,4 +19,4 @@ IMAGE_INSTALL += " \
 
 export IMAGE_BASENAME = "console-base-image"
 
-inherit image
+inherit image selinux-image
