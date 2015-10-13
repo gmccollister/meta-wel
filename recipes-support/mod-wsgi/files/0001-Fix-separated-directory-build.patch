@@ -1,0 +1,65 @@
+From f937477e63ac9ec9f3653ed6a99358bc48fd0a13 Mon Sep 17 00:00:00 2001
+From: George McCollister <george.mccollister@gmail.com>
+Date: Tue, 13 Oct 2015 14:16:05 -0500
+Subject: [PATCH 1/2] Fix separated directory build
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ Makefile.in | 27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 8ea2be2..dd2c2e2 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -15,6 +15,10 @@
+ APXS = @APXS@
+ PYTHON = @PYTHON@
+ 
++VPATH = @srcdir@
++BUILDDIR = @builddir@
++SRCDIR = @srcdir@
++
+ DESTDIR = @DESTDIR@
+ LIBEXECDIR = @LIBEXECDIR@
+ 
+@@ -23,18 +27,31 @@ CFLAGS = @CFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LDLIBS = @LDLIBS@
+ 
+-SRCFILES = src/server/mod_wsgi.c src/server/wsgi_*.c
++SRCFILES = \
++	$(SRCDIR)/src/server/mod_wsgi.c \
++	$(SRCDIR)/src/server/wsgi_apache.c \
++	$(SRCDIR)/src/server/wsgi_buckets.c \
++	$(SRCDIR)/src/server/wsgi_convert.c \
++	$(SRCDIR)/src/server/wsgi_daemon.c \
++	$(SRCDIR)/src/server/wsgi_interp.c \
++	$(SRCDIR)/src/server/wsgi_logger.c \
++	$(SRCDIR)/src/server/wsgi_memory.c \
++	$(SRCDIR)/src/server/wsgi_metrics.c \
++	$(SRCDIR)/src/server/wsgi_restrict.c \
++	$(SRCDIR)/src/server/wsgi_server.c \
++	$(SRCDIR)/src/server/wsgi_stream.c \
++	$(SRCDIR)/src/server/wsgi_validate.c
+ 
+-all : src/server/mod_wsgi.la
++all : $(BUILDDIR)/src/server/mod_wsgi.la
+ 
+-src/server/mod_wsgi.la : $(SRCFILES)
+-	$(APXS) -c $(CPPFLAGS) $(CFLAGS) $(SRCFILES) $(LDFLAGS) $(LDLIBS)
++$(BUILDDIR)/src/server/mod_wsgi.la : $(SRCFILES)
++	$(APXS) -c $(CPPFLAGS) $(CFLAGS) $(SRCFILES) $(LDFLAGS) $(LDLIBS) -o $@
+ 
+ $(DESTDIR)$(LIBEXECDIR) :
+ 	mkdir -p $@
+ 
+ install : all $(DESTDIR)$(LIBEXECDIR)
+-	$(APXS) -i -S LIBEXECDIR=$(DESTDIR)$(LIBEXECDIR) -n 'mod_wsgi' src/server/mod_wsgi.la
++	$(APXS) -i -S LIBEXECDIR=$(DESTDIR)$(LIBEXECDIR) -n 'mod_wsgi' $(BUILDDIR)/src/server/mod_wsgi.la
+ 
+ clean :
+ 	-rm -rf src/server/.libs
+-- 
+2.4.5
+
